@@ -1,10 +1,10 @@
 # Dependencies
 node_modules/
 
-# Environment configurations
+# Environment configurations — ignore secrets, allow public build-time vars
 .env
 .env.local
-.env.production
+# .env.production is intentionally tracked (contains only public API URLs, no secrets)
 
 # Build outputs
 dist/
