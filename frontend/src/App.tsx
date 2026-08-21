@@ -38,7 +38,7 @@ interface SanitizationResponse {
   details: RedactedDetail[];
 }
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://artifact-firewall-1.onrender.com';
+const API_URL = 'https://artifact-firewall-1.onrender.com/api/sanitize';
 
 const COMBINED_SECRET_REGEX = /\b(eyJ[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*|(?:AKIA|ASIA|ABIA|ACCA)[0-9A-Z]{16}|(?:postgres(?:ql)?|mongodb(?:\+srv)?):\/\/[^:\s]+:[^@\s]+@[^/\s]+(?::\d+)?(?:[^\s?]+)?(?:\?[^\s]+)?|xox[bapr]-[0-9a-zA-Z-]{10,64}|(?:sk|pk)_(?:live|test)_[0-9a-zA-Z]{24,48}|AIza[A-Za-z0-9-_]{35})\b/g;
 
@@ -158,7 +158,7 @@ export default function App() {
         formData.append('file', selectedFile);
         formData.append('settings', JSON.stringify(settings));
 
-        response = await fetch(`${API_URL}/api/sanitize`, {
+        response = await fetch(API_URL, {
           method: 'POST',
           body: formData
         });
@@ -169,7 +169,7 @@ export default function App() {
           return;
         }
 
-        response = await fetch(`${API_URL}/api/sanitize`, {
+        response = await fetch(API_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
