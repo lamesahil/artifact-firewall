@@ -9,33 +9,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Allowed origins — add localhost for local dev, Vercel URL for production
-const ALLOWED_ORIGINS = [
-  'https://artifact-firewall.vercel.app',
-  'http://localhost:5173',
-  'http://localhost:3000',
-];
-
-const corsOptions: Parameters<typeof cors>[0] = {
-  origin: (origin, callback) => {
-    // Allow requests with no origin (e.g. curl, Postman, server-to-server)
-    if (!origin) return callback(null, true);
-    if (ALLOWED_ORIGINS.includes(origin)) {
-      return callback(null, true);
-    }
-    callback(new Error(`CORS: origin '${origin}' is not allowed.`));
-  },
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-  credentials: true,
-  optionsSuccessStatus: 204, // Some legacy browsers choke on 200 for OPTIONS
-};
-
-// Apply CORS middleware globally
-app.use(cors(corsOptions));
-
-// Explicitly handle preflight OPTIONS requests for all routes
-app.options('*', cors(corsOptions));
+// Allow all origins for hackathon
+app.use(cors({ origin: '*' }));
 
 // Parse JSON and URL-encoded bodies (limit to 50MB for large HAR files)
 app.use(express.json({ limit: '50mb' }));
